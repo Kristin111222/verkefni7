@@ -31,15 +31,15 @@ public class Game {
 
         System.out.println("Computer has chosen: " + computer);
         System.out.print("Your turn (paper, rock, or scissors): ");
-        String player = scanner.nextLine().toLowerCase(); // make input case-insensitive
+        String player = scanner.nextLine().toLowerCase(); 
 
-        // Check for invalid input
+        
         if (!(player.equals(paper) || player.equals(rock) || player.equals(scissors))) {
             System.out.println("Invalid choice. Please choose paper, rock, or scissors.");
-            return; // exit the method if input is invalid
+            return; 
         }
 
-        // Determine the result
+        
         System.out.println("You chose: " + player);
         
         if (player.equals(computer)) {
