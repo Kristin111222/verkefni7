@@ -1,117 +1,64 @@
+package is.hi.avg4.hbv202g.ass4_2;
+
 import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
+    
+    private String paper;
+    private String rock;
+    private String scissors;
 
-    // Enum for the game choices
-    public enum Choice {
-        STONE, SCISSORS, PAPER
+    public Game() {
+        paper = "paper";
+        rock = "rock";
+        scissors = "scissors";
     }
 
-    // Enum for the game results
-    public enum Result {
-        WIN, LOSE, TIE
-    }
-
-    // The main method - entry point of the program
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.play();  // Start the game
-    }
-
-    // Method to play the game
     public void play() {
         Scanner scanner = new Scanner(System.in);
-        boolean continuePlaying = true;
-
-        while (continuePlaying) {
-            // Get the human player's choice
-            Choice playerChoice = getPlayerChoice(scanner);
-
-            // Get the computer's random choice
-            Choice computerChoice = getComputerChoice();
-
-            // Display the choices
-            System.out.println("You chose: " + playerChoice);
-            System.out.println("Computer chose: " + computerChoice);
-
-            // Evaluate the game result
-            Result result = evaluateGame(playerChoice, computerChoice);
-
-            // Display the result
-            displayResult(result);
-
-            // Ask if the player wants to continue
-            System.out.print("Do you want to play again? (yes/no): ");
-            String response = scanner.nextLine();
-            continuePlaying = response.equalsIgnoreCase("yes");
+        Random rand = new Random();
+        int randomNum = rand.nextInt(3);
+        String computer = "";
+        
+        if (randomNum == 0) {
+            computer = paper;
+        } else if (randomNum == 1) {
+            computer = rock;
+        } else if (randomNum == 2) {
+            computer = scissors;
         }
 
-        scanner.close();
-    }
+        System.out.println("Computer has chosen: " + computer);
+        System.out.print("Your turn (paper, rock, or scissors): ");
+        String player = scanner.nextLine().toLowerCase(); // make input case-insensitive
 
-    // Method to get the human player's choice
-    private Choice getPlayerChoice(Scanner scanner) {
-        Choice choice = null;
-        while (choice == null) {
-            System.out.print("Enter your choice (stone, scissors, paper): ");
-            String input = scanner.nextLine().toLowerCase();
-
-            switch (input) {
-                case "stone":
-                    choice = Choice.STONE;
-                    break;
-                case "scissors":
-                    choice = Choice.SCISSORS;
-                    break;
-                case "paper":
-                    choice = Choice.PAPER;
-                    break;
-                default:
-                    System.out.println("Invalid input. Please enter 'stone', 'scissors', or 'paper'.");
-            }
-        }
-        return choice;
-    }
-
-    // Method to get the computer's random choice
-    private Choice getComputerChoice() {
-        Random random = new Random();
-        int choiceIndex = random.nextInt(3);  // Randomly choose between 0, 1, or 2
-        return Choice.values()[choiceIndex];  // Correct assignment, using an enum value
-    }
-
-    // Method to evaluate the result of the game
-    private Result evaluateGame(Choice playerChoice, Choice computerChoice) {
-        if (playerChoice == computerChoice) {
-            return Result.TIE;
+        // Check for invalid input
+        if (!(player.equals(paper) || player.equals(rock) || player.equals(scissors))) {
+            System.out.println("Invalid choice. Please choose paper, rock, or scissors.");
+            return; // exit the method if input is invalid
         }
 
-        switch (playerChoice) {
-            case STONE:
-                return (computerChoice == Choice.SCISSORS) ? Result.WIN : Result.LOSE;
-            case SCISSORS:
-                return (computerChoice == Choice.PAPER) ? Result.WIN : Result.LOSE;
-            case PAPER:
-                return (computerChoice == Choice.STONE) ? Result.WIN : Result.LOSE;
-            default:
-                return Result.TIE;  // This should never happen
+        // Determine the result
+        System.out.println("You chose: " + player);
+        
+        if (player.equals(computer)) {
+            System.out.println("It's a tie!");
+        } else if (player.equals(paper) && computer.equals(rock)) {
+            System.out.println("You win! Paper beats rock.");
+        } else if (player.equals(rock) && computer.equals(scissors)) {
+            System.out.println("You win! Rock beats scissors.");
+        } else if (player.equals(scissors) && computer.equals(paper)) {
+            System.out.println("You win! Scissors beats paper.");
+        } else {
+            System.out.println("You lose!");
         }
     }
 
-    // Method to display the result
-    private void displayResult(Result result) {
-        switch (result) {
-            case WIN:
-                System.out.println("You win!");
-                break;
-            case LOSE:
-                System.out.println("You lose!");
-                break;
-            case TIE:
-                System.out.println("It's a tie!");
-                break;
-        }
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.play();
     }
 }
 
+    
